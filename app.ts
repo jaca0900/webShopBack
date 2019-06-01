@@ -1,5 +1,4 @@
-import * as Express from 'express'
-import { MongoClient } from 'mongodb';
+import * as Express from 'express';
 import { RoutesManager } from './src/routing/routes/routes';
 import * as env from './config/environments';
 
