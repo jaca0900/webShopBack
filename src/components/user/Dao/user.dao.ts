@@ -7,20 +7,4 @@ export class UserDao extends GenericDao<IUser> {
   constructor() {
     super(UserModel);
   }
-
-  getAll(): Promise<IUser[]> {
-    return super.getAll();
-  }
-
-  queryAll() {
-
-  }
-
-  queryOne() {
-
-  }
-
-  delete() {
-
-  }
 }
