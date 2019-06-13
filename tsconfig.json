@@ -14,8 +14,8 @@
       ]
     },
     "include": [
-      "src/**/**.ts", // transpile every file inside src directory
-      "app.ts"
+      "./src/**/**.ts", // transpile every file inside src directory
+      "./app.ts"
     ],
     "exclude": [
       "node_modules"

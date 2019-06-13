@@ -14,8 +14,16 @@ export class GenericDao
     return this.Model.findOne(predicate)
   }
 
-  public createUnique(data: T): Promise<T> {
-    return this.Model.findOrCreate(data);
+  public createUnique(data): Promise<T> {
+    delete data.id;
+
+    return this.Model.findOrCreate({ where: data });
+  }
+
+  public create(data): Promise<any> {
+    delete data.id;
+
+    return this.Model.create(data);
   }
 
   public update(data: T, predicate: { [key: string]: any }): Promise<any> {

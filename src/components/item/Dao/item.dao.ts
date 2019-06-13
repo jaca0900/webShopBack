@@ -7,4 +7,13 @@ export class ItemDao extends GenericDao<IItem> {
   constructor() {
     super(ItemModel);
   }
+
+  queryEager(predicate: { [key: string]: any }): Promise<IItem[]> {
+    predicate.include = [
+      ItemModel.associations.images,
+      ItemModel.associations.user
+    ];
+
+    return super.query(predicate);
+  }
 }

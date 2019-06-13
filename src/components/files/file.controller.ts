@@ -12,12 +12,24 @@ export class FileController {
     return this.dao.query(predicate);
   }
 
-  public createUser(data: IFile): Promise<IFile> {
-    return this.dao.createUnique(data);
+  public async saveFile(data: any, itemId): Promise<IFile> {
+
+    const test = <Blob> data.buffer;
+
+    const finalImg = {
+      item_id: itemId,
+      fileUrl: 'http://localhost:8000',
+      content: test
+    };
+
+    let created = await this.dao.create(finalImg);
+
+    finalImg.fileUrl += '/files/' + created['null'];
+    return this.update(finalImg, created['null'])
   }
 
-  public updateUser(data: IFile, predicate: { [key: string]: any }): Promise<any> {
-    return this.dao.update(data, predicate);
+  private update(data, id) {
+    return this.dao.update(data, { where: { id } });
   }
 
   public deleteUser(predicate: { [key: string]: any }) {

@@ -1,6 +1,8 @@
 import { ItemModel } from './item.model';
 import { DataTypes, Sequelize } from 'sequelize';
 import { Initializer } from '../../common/model/initializer';
+import { FileModel } from '../../files/model/file.model';
+import { UserModel } from '../../user/model/user.model';
 
 export class ItemInitializer extends Initializer {
 
@@ -11,41 +13,56 @@ export class ItemInitializer extends Initializer {
         primaryKey: true,
       },
       name: {
-        type: new DataTypes.STRING(20),
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
       description: {
-        type: new DataTypes.STRING(512),
+        type: DataTypes.STRING(512),
         allowNull: true
       },
       quantity: {
-        type: new DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: true
       },
       item_price: {
-        type: new DataTypes.FLOAT,
+        type: DataTypes.FLOAT,
         allowNull: true
       },
       amount_left: {
-        type: new DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: true
       },
       startDate: {
-        type: new DataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
       },
       endDate: {
-        type: new DataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
       },
       createDate: {
-        type: new DataTypes.DATE,
+        type: DataTypes.DATE,
+        allowNull: true
+      },
+      user_id: {
+        type: DataTypes.BIGINT,
         allowNull: true
       }
     }, {
-      tableName: 'item',
+      tableName: 'items',
       sequelize: connection,
       timestamps: false
-  });
+    });
+
+    ItemModel.hasMany(FileModel, {
+      sourceKey: 'id',
+      foreignKey: 'item_id',
+      as: 'images' // this determines the name in `associations`!
+    });
+
+    ItemModel.belongsTo(UserModel, {
+      as: 'user',
+      foreignKey: 'user_id'
+    }); // Then user Has Many Items
   }
 }

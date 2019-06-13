@@ -1,7 +1,6 @@
 import {IBaseModel} from "../../common/model/base.model.interface";
 
 export interface IUser extends IBaseModel {
-  id: number;
   first_name: string | null;
   last_name: string | null;
   addres: string | null;

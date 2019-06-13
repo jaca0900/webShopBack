@@ -1,13 +1,15 @@
 import {IBaseModel} from "../../common/model/base.model.interface";
 
 export interface IItem extends IBaseModel {
-  id: number;
-  first_name: string | null;
-  last_name: string | null;
-  addres: string | null;
-  email: string | null;
-  login: string | null;
-  pass: string | null;
-  bank: string | null;
-  payment_methods: string | null;
+  name: string | null;
+  description: string | null;
+  quantity: number | null;
+  startDate: Date | null;
+  endDate: Date | null;
+  createDate: Date | null;
+  item_price: number | null;
+  amount_left: number | null;
+  user_id: number | null;
+  images: any[];
+  user: { [key: string]: any };
 }

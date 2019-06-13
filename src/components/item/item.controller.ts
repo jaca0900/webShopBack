@@ -8,19 +8,31 @@ export class ItemController {
     this.dao = new ItemDao();
   }
 
-  public query(predicate) {
+  public query(predicate): Promise<IItem[]> {
     return this.dao.query(predicate);
   }
 
-  public createUser(data: IItem): Promise<IItem> {
-    return this.dao.createUnique(data);
+  public queryEager(predicate): Promise<IItem[]> {
+    return this.dao.queryEager(predicate);
   }
 
-  public updateUser(data: IItem, predicate: { [key: string]: any }): Promise<any> {
+  public create(data: IItem): Promise<IItem> {
+    delete data.images;
+
+    return this.query({ where: { name: data.name }})
+      .then(res => {
+        if (res && res.length) {
+          return res[0];
+        }
+        return this.dao.create(data);
+      });
+  }
+
+  public update(data: IItem, predicate: { [key: string]: any }): Promise<any> {
     return this.dao.update(data, predicate);
   }
 
-  public deleteUser(predicate: { [key: string]: any }) {
+  public delete(predicate: { [key: string]: any }) {
     return this.dao.delete(predicate);
   }
 }

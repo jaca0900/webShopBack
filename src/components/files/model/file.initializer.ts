@@ -11,15 +11,19 @@ export class FileInitializer extends Initializer {
         primaryKey: true,
       },
       item_id: {
-        type: new DataTypes.BIGINT,
+        type: DataTypes.BIGINT,
         allowNull: false,
       },
       fileUrl: {
-        type: new DataTypes.STRING(512),
+        type: DataTypes.STRING(512),
+        allowNull: true
+      },
+      content: {
+        type: DataTypes.BLOB,
         allowNull: true
       }
     }, {
-      tableName: 'user',
+      tableName: 'files',
       sequelize: connection,
       timestamps: false
   });
