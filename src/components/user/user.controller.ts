@@ -1,10 +1,12 @@
 import { UserDao } from './Dao/user.dao';
 import { IUser } from './model/user.interface';
 import * as JWT from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 
 export class UserController {
   private dao: UserDao;
   private secret = ']gtt)F&USAD*(GVYQEW*GF)347gh';
+  private saltRounds = 10;
 
   constructor () {
     this.dao = new UserDao();
@@ -15,7 +17,7 @@ export class UserController {
   }
 
   public async create(data: IUser): Promise<IUser> {
-    console.log('Do create');
+
     const users = await this.query({
      where: {
        login: data.login
@@ -25,6 +27,8 @@ export class UserController {
     if (users && users.length) {
       return Promise.reject('User with this login already exists');
     }
+
+    data.pass = await bcrypt.hash(data.pass, this.saltRounds);
 
     return this.dao.create(data);
   }
@@ -38,7 +42,7 @@ export class UserController {
       return Promise.reject('User does not exist');
     }
 
-    if (user && user.pass !== password) {
+    if (user && !(await bcrypt.compare(password, user.pass))) {
       return Promise.reject('Credentials do not match');
     }
 
@@ -52,7 +56,7 @@ export class UserController {
 
   public async checkAuth(token) {
     const decoded = JWT.verify(token, this.secret);
-    console.log('decoded', decoded);
+
     if (decoded.authed) {
       return 'OK';
     }
