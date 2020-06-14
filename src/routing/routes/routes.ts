@@ -12,6 +12,9 @@ import { ItemController } from '../../components/item/item.controller';
 import { FilesRoute } from './files.route';
 import { ItemsRoute } from './items.route';
 import { UsersRoute } from './users.route';
+import { MessageInitializer } from '../../components/message/model/message.initializer';
+import { MessageController } from '../../components/message/message.controller';
+import { MessagesRoute } from './messages.router';
 
 export class RoutesManager {
   myRoutes: IRoute[];
@@ -31,21 +34,24 @@ export class RoutesManager {
     const userInitializer = new UserInitializer();
     const fileInitializer = new FileInitializer();
     const itemInitializer = new ItemInitializer();
+    const messageInitializer = new MessageInitializer();
 
     userInitializer.init(this.connection);
     fileInitializer.init(this.connection);
     itemInitializer.init(this.connection);
+    messageInitializer.init(this.connection);
 
     const userController: UserController = new UserController();
     const fileController: FileController = new FileController();
     const itemController: ItemController = new ItemController();
-
+    const messageController: MessageController = new MessageController();
 
     this.myRoutes = [
       new MainRouter(app, Express.Router(), userController),
       new FilesRoute(app, Express.Router(), fileController),
       new ItemsRoute(app, Express.Router(), itemController),
-      new UsersRoute(app, Express.Router(), userController)
+      new UsersRoute(app, Express.Router(), userController),
+      new MessagesRoute(app, Express.Router(), messageController),
     ];
   }
 

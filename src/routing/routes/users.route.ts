@@ -13,6 +13,26 @@ export class UsersRoute implements IRoute {
   register() {
     this.app.use('/user', this.router);
 
+    this.router.get('/', (req, res) => {
+      this.userController.query({})
+        .then((resp) => {
+          res.status(200).json(resp);
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        })
+    });
+
+    this.router.get('/byId/:id', (req, res) => {
+      this.userController.query(req.params)
+        .then((resp) => {
+          res.status(200).json(resp);
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        })
+    })
+
     this.router.post('/create', bodyParser.json(), (req, res) => {
       this.userController.create(req.body)
         .then(resp => {

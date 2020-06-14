@@ -1,6 +1,9 @@
 import { UserModel } from './user.model';
 import { DataTypes, Sequelize } from 'sequelize';
 import { Initializer } from '../../common/model/initializer';
+import {ItemModel} from "../../item/model/item.model";
+import {FileModel} from "../../files/model/file.model";
+import {MessageModel} from "../../message/model/message.model";
 
 export class UserInitializer extends Initializer {
 
@@ -46,6 +49,6 @@ export class UserInitializer extends Initializer {
       tableName: 'users',
       sequelize: connection,
       timestamps: false
-  });
+    });
   }
 }
